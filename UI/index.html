@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="./lib/multiple-select-master/multiple-select.css">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <link rel="stylesheet" type="text/css" href="./css/site.css">
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap-header-table.css">
+
+    <title>DataPool</title>
+</head>
+
+<body>
+    <div id="main" class="no-container">
+        <section class="head">
+            <div class="row" style="margin-left: 50px;">
+                <div class="col-md-5" style="padding-top: 3px">
+                    <p>Data Pool Dashboard</p>
+                </div>
+                <div class="col-md-2">
+                    <img class="center-block" src="" alt="Company Name"></img>
+                </div>
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-1" style="padding-top: 3px">
+                    <span data-bind="text: selectedEnv"></span>
+                </div>
+            </div>
+        </section>
+        <nav class="navbar navbar-default" style="margin-top:50px;">
+            <div class="container-fluid" style="margin-left: 50px; margin-right: 50px;">
+                <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Environment
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" data-bind="foreach: envs">
+                            <li>
+                                <a class="dropdown-item" href="/SIT/home" data-bind="text: env"></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a id="signup" href="/signup">Signup</a>
+                    </li>
+                    <li>&nbsp;&nbsp;</li>
+                    <li>
+                        <a href="#" onclick="loginPage()">Login</a>
+                    </li>
+                    <li>&nbsp;&nbsp;</li>
+                    <li style="padding-top: 15px;">
+                        Hi
+                    </li>
+                    <li>
+                        <a id="logout" href="/logout">Logout</a>
+                    </li>
+                    <li>&nbsp;&nbsp;</li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="default-container">
+        <div class="row">
+            <div id="processTable" data-bind="visible: shouldShow">
+                <div class="col-md-12">
+                    <input class="form-control" id="dataPool-search" type="search" data-bind="value: query, valueUpdate: 'keyup'" placeholder="Search...">
+                    <br />
+                    <div class="row">
+                        <div class="bootstrap-header-table">
+                            <div class="row header-row">
+                                <div>
+                                    <div class="col-xs-1 header-column">Data Pool Process</div>
+                                    <div class="col-xs-4 header-column">Description</div>
+                                    <div class="col-xs-1 header-column">Process Type</div>
+                                    <div class="col-xs-1 header-column">Requisite Type</div>
+                                    <div class="col-xs-1 header-column">Data Type</div>
+                                    <div class="col-xs-1 header-column">Threshold Limit</div>
+                                    <div class="col-xs-1 header-column">Primary TC Count</div>
+                                    <div class="col-xs-1 header-column">Secondary TC Count</div>
+                                    <div class="col-xs-1 header-column">Current Data Pool Count</div>
+                                </div>
+                            </div>
+                            <div style="display:none;" data-bind="visible: shouldShow, foreach: processData">
+                                <div class="row body-rows">
+                                    <div class="col-xs-1 body-column" data-bind="text: dataPoolProcess"></div>
+                                    <div class="col-xs-4 body-column" data-bind="text: description"></div>
+                                    <div class="col-xs-1 body-column" data-bind="text: processCode"></div>
+                                    <div class="col-xs-1 body-column" data-bind="text: requisiteCode"></div>
+                                    <div class="col-xs-1 body-column" data-bind="text: dataType"></div>
+                                    <div data-bind="foreach: thresholdData">
+                                        <div class="col-xs-1 body-column" data-bind=""></div>
+                                        <div class="col-xs-1 body-column" data-bind="text: primaryTCCount"></div>
+                                        <div class="col-xs-1 body-column" data-bind="text: secondaryTCCount"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="default-container">
+        <div class="row">
+            <div id="loginPage" data-bind="visible: shouldShow">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <br/>
+                    <form method="post" action="/login">
+                        <label>
+                            <strong>Username:</strong>
+                        </label>
+                        <input maxlength="50px" class="form-control" name="username" type="text">
+                        <br/>
+                        <label>
+                            <strong>Password:</strong>
+                        </label>
+                        <input class="form-control" name="password" type="password">
+                        <br/>
+                        <div class="center-align">
+                            <button class="btn btn-primary" type="submit">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="default-container">
+        <div class="row">
+            <div id="signupPage" data-bind="visible: shouldShow">
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="row" style="margin-left: 50px">
+            <div class="col-md-12">
+                <h2>© Project Name - 2018</h2>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./lib/knockout-3.4.2.js"></script>
+    <script src="./lib/knockout.mapping-latest.js"></script>
+    <script src="./lib/multiple-select-master/multiple-select.js"></script>
+    <script src="./js/main.js"></script>
+
+</body>
